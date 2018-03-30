@@ -24,7 +24,6 @@
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
-#include <string>
 
 class Platform
 {
@@ -35,11 +34,11 @@ public:
     static void setProcessPriority(int priority);
     static void setThreadPriority(int priority);
 
-    static inline const char *userAgent() { return m_userAgent.c_str(); }
+    static inline const char *userAgent() { return m_userAgent; }
 
 private:
-    static char m_defaultConfigName[520];
-    static std::string m_userAgent;
+    static char *m_defaultConfigName;
+    static char *m_userAgent;
 };
 
 
