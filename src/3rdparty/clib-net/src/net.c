@@ -88,7 +88,6 @@ net_close(net_t * net, void (*cb)(uv_handle_t*)) {
 
 int
 net_free(net_t * net) {
-  net_close(net, NULL);
   free(net->resolver);
   free(net);
   return NET_OK;
