@@ -64,7 +64,7 @@ Usage: " APP_ID " [OPTIONS]\n\
 Options:\n"
 # ifndef XMRIG_CC_SERVER
 "\
-  -a, --algo=ALGO                       cryptonight (default) or cryptonight-lite\n\
+  -a, --algo=ALGO                       cryptonight (default) / cryptonight-lite or cryptonight-heavy\n\
   -o, --url=URL                         URL of mining server\n\
   -O, --userpass=U:P                    username:password pair for mining server\n\
   -u, --user=USERNAME                   username for mining server\n\
@@ -99,7 +99,7 @@ Options:\n"
       --cc-update-interval-s=N          status update interval in seconds (default: 10 min: 1)\n"
 # endif
 # endif
-      
+
 # ifdef XMRIG_CC_SERVER
 "\
       --cc-user=USERNAME                CC Server admin user\n\
@@ -111,13 +111,13 @@ Options:\n"
       --cc-key-file=FILE                when tls is turned on, use this to point to the right key file (default: server.key) \n\
       --cc-client-config-folder=FOLDER  Folder contains the client config files\n\
       --cc-custom-dashboard=FILE        loads a custom dashboard and serve it to '/'\n"
-# endif             
+# endif
 "\
       --no-color                        disable colored output\n"
-# ifdef HAVE_SYSLOG_H               
+# ifdef HAVE_SYSLOG_H
 "\
   -S, --syslog                          use system log for output messages\n"
-# endif             
+# endif
 "\
   -B, --background                      run the miner in the background\n\
   -c, --config=FILE                     load a JSON-format configuration file\n\
@@ -257,9 +257,8 @@ static struct option const cc_server_options[] = {
 
 static const char *algo_names[] = {
     "cryptonight",
-#   ifndef XMRIG_NO_AEON
     "cryptonight-lite"
-#   endif
+    "cryptonight-heavy"
 };
 
 
@@ -919,12 +918,15 @@ bool Options::setAlgo(const char *algo)
             break;
         }
 
-#       ifndef XMRIG_NO_AEON
         if (i == ARRAY_SIZE(algo_names) - 1 && !strcmp(algo, "cryptonight-light")) {
             m_algo = ALGO_CRYPTONIGHT_LITE;
             break;
         }
-#       endif
+
+        if (i == ARRAY_SIZE(algo_names) - 1 && !strcmp(algo, "cryptonight-heavy")) {
+            m_algo = ALGO_CRYPTONIGHT_HEAVY;
+            break;
+        }
 
         if (i == ARRAY_SIZE(algo_names) - 1) {
             showUsage(1);
