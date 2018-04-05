@@ -209,20 +209,18 @@ bool Client::parseJob(const rapidjson::Value &params, int *code)
     if (params.HasMember("variant")) {
         int variantFromProxy = params["variant"].GetInt();
 
-        if (Options::i()->forcePowVersion() == Options::POW_AUTODETECT) {
-            switch (variantFromProxy) {
-                case -1:
-                    Options::i()->setForcePowVersion(Options::POW_AUTODETECT);
-                    break;
-                case 0:
-                    Options::i()->setForcePowVersion(Options::POW_V1);
-                    break;
-                case 1:
-                    Options::i()->setForcePowVersion(Options::POW_V2);
-                    break;
-                default:
-                    break;
-            }
+        switch (variantFromProxy) {
+            case -1:
+                Options::i()->setForcePowVersion(Options::POW_AUTODETECT);
+                break;
+            case 0:
+                Options::i()->setForcePowVersion(Options::POW_V1);
+                break;
+            case 1:
+                Options::i()->setForcePowVersion(Options::POW_V2);
+                break;
+            default:
+                break;
         }
     }
 
